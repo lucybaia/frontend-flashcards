@@ -1,1 +1,85 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand-black: #000000;
+  --color-brand-pink: #ffb5c6;
+  --color-brand-violet-red: #ff497e;
+  --color-brand-red-violet: #ff497e;
+  --color-brand-carmine: #a10023;
+  --color-brand-red-guardsman: #be0000;
+}
+
+:root {
+  --app-bg: #ffb5c6;
+  --app-text: #000000;
+  --progress-bg: #000000;
+  --progress-fill: #ff497e;
+  --border-color: #000000;
+}
+
+.dark {
+  --app-bg: #000000;
+  --app-text: #ffb5c6;
+  --progress-bg: #220004;
+  --progress-fill: #8b0020;
+  --border-color: #ffffff;
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* --- Scanlines Avançadas (Lentas e com variação de grossura) --- */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Gradiente com múltiplas paradas para simular interferência e variação */
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 0%,
+    rgba(0, 0, 0, 0.2) 10%,
+    rgba(18, 16, 16, 0) 20%,
+    rgba(0, 0, 0, 0.05) 50%,
+    rgba(0, 0, 0, 0.3) 90%
+  );
+  background-size: 100% 12px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.3;
+  animation: scanline-run 30s linear infinite;
+}
+
+@keyframes scanline-run {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+/* --- Brilho CRT e Glitch --- */
+.crt-glow {
+  animation: crt-flicker 0.1s infinite;
+}
+
+@keyframes crt-flicker {
+  0% { opacity: 0.99; }
+  50% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+.glitch-hover:hover {
+  animation: glitch-shake 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+  color: var(--color-brand-red-violet);
+  text-shadow: 2px 0 var(--color-brand-pink), -2px 0 var(--color-brand-red-guardsman);
+}
+
+@keyframes glitch-shake {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
