@@ -1,13 +1,22 @@
 'use client'
 import { useState, useEffect } from 'react';
 import Card from '@/components/Card';
-import { Flashcard } from '@/types';
+import { Flashcard, Difficulty } from '@/types';
+
+const difficulties: { value: Difficulty | 'all'; label: string }[] = [
+  { value: 'all', label: 'Todas' },
+  { value: 'trainee', label: 'Trainee' },
+  { value: 'junior', label: 'Junior' },
+  { value: 'pleno', label: 'Pleno' },
+  { value: 'senior', label: 'Senior' },
+];
 
 export default function Home() {
   const [cards, setCards] = useState<Flashcard[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | 'all'>('all');
 
   // 1. Aplica a classe .dark no HTML
   useEffect(() => {
@@ -31,8 +40,12 @@ export default function Home() {
   // 3. Busca os cards na API
   useEffect(() => {
     async function loadCards() {
+      setLoading(true);
       try {
-        const response = await fetch('/api/flashcards');
+        const url = selectedDifficulty === 'all' 
+          ? '/api/flashcards' 
+          : `/api/flashcards?difficulty=${selectedDifficulty}`;
+        const response = await fetch(url);
         if (!response.ok) throw new Error("Falha na API");
         const text = await response.text();
         if (!text) throw new Error("Resposta vazia");
@@ -40,15 +53,8 @@ export default function Home() {
         
         const shuffled = shuffleCards(data);
         setCards(shuffled);
-
-        // Recupera o progresso salvo após carregar os cards
-        const savedProgress = localStorage.getItem('flashcards-progress');
-        if (savedProgress) {
-          const index = parseInt(savedProgress);
-          if (index < shuffled.length) {
-            setCurrentIndex(index);
-          }
-        }
+        setCurrentIndex(0);
+        localStorage.removeItem('flashcards-progress');
       } catch (error) {
         console.error("Erro detalhado:", error);
       } finally {
@@ -56,7 +62,7 @@ export default function Home() {
       }
     }
     loadCards();
-  }, []);
+  }, [selectedDifficulty]);
 
   // 4. Salva o progresso no LocalStorage sempre que o index mudar
   useEffect(() => {
@@ -112,11 +118,29 @@ export default function Home() {
         </span>
       </div>
 
-      <header className="mb-12 text-center">
+      <header className="mb-8 text-center">
         <h1 className="text-4xl font-black uppercase italic tracking-tighter sm:text-6xl">
           FRONTEND FLASHCARDS
         </h1>
-        <p className="font-mono text-[10px] font-bold uppercase opacity-80 mt-2">
+        
+        {/* Seletor de Dificuldade */}
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          {difficulties.map((diff) => (
+            <button
+              key={diff.value}
+              onClick={() => setSelectedDifficulty(diff.value)}
+              className={`px-4 py-2 text-xs font-black uppercase border-4 transition-all cursor-pointer
+                ${selectedDifficulty === diff.value 
+                  ? 'bg-brand-red-violet text-white border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,181,198,1)]' 
+                  : 'bg-white text-black border-black dark:bg-brand-black dark:text-white dark:border-white hover:bg-gray-200 dark:hover:bg-gray-800'
+                }`}
+            >
+              {diff.label}
+            </button>
+          ))}
+        </div>
+
+        <p className="font-mono text-[10px] font-bold uppercase opacity-80 mt-4">
           {currentIndex + 1} OF {cards.length} CARDS_LOADED
         </p>
       </header>

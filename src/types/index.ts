@@ -1,4 +1,4 @@
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = 'trainee' | 'junior' | 'pleno' | 'senior';
 
 export interface Flashcard {
   id: string;
