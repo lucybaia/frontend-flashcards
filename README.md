@@ -1,5 +1,9 @@
 # FRONTEND FLASHCARDS
 
+| Light Mode | Dark Mode |
+| :---: | :---: |
+| ![Light Mode](./assets/screenshots/lightmode.png) | ![Dark Mode](./assets/screenshots/darkmode.png) |
+
 > Uma aplicação de estudo interativa para desenvolvedores frontend, construída com estética **pixel art** e **brutalista** — simulando interfaces de terminais antigos e monitores CRT.
 
 ---
