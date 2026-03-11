@@ -96,9 +96,6 @@ export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center bg-[var(--app-bg)] text-[var(--app-text)] transition-colors duration-500 p-8 md:p-24 overflow-hidden crt-glow">
 
-      {/* Camada de Scanlines Animadas */}
-      <div className="scanlines"></div>
-
       {/* Botão de Toggle Dark/Light */}
       <button
         onClick={() => setDarkMode(!darkMode)}
