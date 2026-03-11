@@ -63,12 +63,10 @@ http://localhost:3000
 
 ---
 
-## ✦ DevOps & Boas Práticas
+## ✦ Boas Práticas
 
-Este projeto faz parte de um **Roadmap de aprendizado em DevOps**, com foco em:
+Este projeto faz parte de um **Roadmap de aprendizado em Front-End**, com foco em:
 
 - **Código Limpo** — Separação clara entre lógica de negócio e interface
-- **Modularização** — Pasta `lib/` para utilitários independentes e reutilizáveis
-- **Versionamento** — Estrutura preparada para pipelines de CI/CD via **GitHub Actions**
 
 ---
